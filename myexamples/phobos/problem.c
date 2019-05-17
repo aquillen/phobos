@@ -278,6 +278,7 @@ int main(int argc, char* argv[]){
 
 
 #define NSPACE 50
+double dEdtsum = 0.0;  // global for sums
 void heartbeat(struct reb_simulation* const r){
         static int first=0;
         static char extendedfile[50];
@@ -312,9 +313,12 @@ void heartbeat(struct reb_simulation* const r){
             }
 
          }
+         dEdtsum += dEdt_total(r); // store dissipation rate
 
 	 if (reb_output_check(r,t_print)) {
-            print_extended(r,0,r->N-npert,extendedfile); // orbital info and stuff
+            double dEdtave = dEdtsum*r->dt/t_print; // take average value
+            print_extended(r,0,r->N-npert,extendedfile,dEdtave); // orbital info and stuff
+            dEdtsum=0.0;  // reset heating rate storage
             if (npert>0) 
                for(int i=0;i<npert;i++){
                   int ip = icentral+i;

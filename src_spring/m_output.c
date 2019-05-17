@@ -42,14 +42,14 @@ void print_surf(struct reb_simulation* const r, int il, int ih, int *surfarr, ch
 
 
 // print out information for an extended body indices [il,ih)
-void print_extended(struct reb_simulation* const r, int il, int ih, char* filename)
+void print_extended(struct reb_simulation* const r, int il, int ih, char* filename, double dEdtave)
 {
    static int first=0;
    FILE *fpo;
    if (first==0){
      first=1;
      fpo = fopen(filename, "w");
-     fprintf(fpo,"# t x y z vx vy vz omx omy omz llx lly llz Ixx Iyy Izz Ixy Iyz Ixz KErot PEspr PEgrav Etot dEdt\n");
+     fprintf(fpo,"# t x y z vx vy vz omx omy omz llx lly llz Ixx Iyy Izz Ixy Iyz Ixz KErot PEspr PEgrav Etot dEdtnow dEdtave\n");
    }
    else {
      fpo = fopen(filename, "a");
@@ -79,8 +79,9 @@ void print_extended(struct reb_simulation* const r, int il, int ih, char* filena
    double E_tot = KErot+pe_springs+pe_grav; 
    double dEdtnow = dEdt_total(r); // current dissipation from velocities of particles
                                   // that are connected by springs
-   fprintf(fpo,"%.5e %.5e %.10e %.10e %.10e",KErot,pe_springs,pe_grav,E_tot,dEdtnow);
-   // printf("%.5e %.5e %.5e %.5e\n",KErot,pe_springs,pe_grav,E_tot); //  
+   fprintf(fpo,"%.5e %.5e %.10e %.10e %.10e ",KErot,pe_springs,pe_grav,E_tot,dEdtnow);
+   fprintf(fpo,"%.10e",dEdtave);
+   // printf(" %.5e %.5e %.5e %.5e\n",KErot,pe_springs,pe_grav,E_tot); //  
    fprintf(fpo,"\n");
    fclose(fpo);
 }

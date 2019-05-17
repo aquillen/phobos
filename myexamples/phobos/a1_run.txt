@@ -1,0 +1,14 @@
+a 1.146
+b 1.088
+c 0.802
+vol_ratio 1.000000
+spin period 20.943951
+Young's_modulus 2.464410
+Young's_modulus big 1.614140
+mush_distance 1.0350
+mean_L  0.7598
+relaxation_time  1.705e-01
+resbody mm=0.283 period=22.21
+barchi  0.0058
+posc 183.256486
+N=41  NS=303 NS/N=7.6
